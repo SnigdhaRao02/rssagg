@@ -34,6 +34,12 @@ func main() {
 		MaxAge:           300,
 	}))
 
+	v1router := chi.NewRouter()
+	v1router.Get("/health", handlerReadiness)
+	v1router.Get("/error", handlerErr)
+
+	router.Mount("/v1", v1router) //so full path: /v1/health
+
 	srv := &http.Server{
 		Handler: router,
 		Addr:    ":" + portString,
