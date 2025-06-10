@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Let's get started")
+	fmt.Println("Let's get started - again")
 
 	godotenv.Load()
 
