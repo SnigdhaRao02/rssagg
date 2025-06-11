@@ -59,6 +59,7 @@ func main() {
 	v1router.Get("/health", handlerReadiness)
 	v1router.Get("/error", handlerErr)
 	v1router.Post("/users", apiCfg.handlerCreateUser)
+	v1router.Get("/users", apiCfg.handlerGetUser)
 
 	router.Mount("/v1", v1router) //so full path: /v1/health
 
