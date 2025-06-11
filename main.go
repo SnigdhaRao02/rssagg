@@ -58,10 +58,16 @@ func main() {
 	v1router := chi.NewRouter()
 	v1router.Get("/health", handlerReadiness)
 	v1router.Get("/error", handlerErr)
+
 	v1router.Post("/users", apiCfg.handlerCreateUser)
 	v1router.Get("/users", apiCfg.handlerGetUser)
+
 	v1router.Post("/feeds", apiCfg.handlerCreateFeed)
 	v1router.Get("/feeds", apiCfg.handlerGetAllFeeds)
+
+	v1router.Post("/feed_follows", apiCfg.handlerCreateFeedFollow)
+	v1router.Get("/feed_follows", apiCfg.handlerGetAllFeedFollows)
+	v1router.Delete("/feed_follows/{feedFollowID}", apiCfg.handlerDeleteFeedFollows)
 
 	router.Mount("/v1", v1router) //so full path: /v1/health
 
