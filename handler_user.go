@@ -57,3 +57,29 @@ func (apiCfg *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request) 
 
 	respondWithJSON(w, 200, user)
 }
+
+func (apiCfg *apiConfig) handlerGetPostsForUser(w http.ResponseWriter, r *http.Request) {
+
+	apiKey, err := auth.GetApiKey(r.Header)
+	if err != nil {
+		respondWithError(w, 403, fmt.Sprintf("Auth error: %v", err))
+		return
+	}
+
+	user, err := apiCfg.DB.GetUserByApiKey(r.Context(), apiKey)
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Could not retrieve user: %v", err))
+		return
+	}
+
+	posts, err := apiCfg.DB.GetPostsForUser(r.Context(), database.GetPostsForUserParams{
+		UserID: user.ID,
+		Limit:  10,
+	})
+	if err != nil {
+		respondWithError(w, 400, fmt.Sprintf("Could not retrieve posts: %v", err))
+		return
+	}
+
+	respondWithJSON(w, 200, posts)
+}
